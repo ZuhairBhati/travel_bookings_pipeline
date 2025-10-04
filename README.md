@@ -27,15 +27,15 @@ Booking     + Audit Trail   + Logging      Keys         + Analytics
 ```
 Travel_Booking_SCD2_Merge_Project/
 ├── notebooks/
-│   ├── validate_inputs.ipynb              # Input validation and audit logging
-│   ├── 10_ingest_bookings_bronze.ipynb    # Booking data ingestion
-│   ├── 11_ingest_customers_bronze.ipynb   # Customer data ingestion
-│   ├── 20_dq_bookings.ipynb               # Booking data quality checks
-│   ├── 21_dq_customers.ipynb              # Customer data quality checks
-│   ├── 30_customer_dim_scd2.ipynb         # SCD2 customer dimension
-│   ├── 31_booking_fact_build.ipynb        # Booking fact table
-│   ├── 40_optimize_zorder.ipynb           # Table optimization
-│   └── 41_analyze_stats.ipynb             # Statistics analysis
+│   ├── 01_input_validation.ipynb           # Input validation and audit logging
+│   ├── 02_ingest_bookings_bronze.ipynb     # Booking data ingestion
+│   ├── 03_ingest_customers_bronze.ipynb    # Customer data ingestion
+│   ├── 04_bookings_dq.ipynb                # Booking data quality checks
+│   ├── 05_customers_dq.ipynb               # Customer data quality checks
+│   ├── 06_customers_dim_scd2.ipynb         # SCD2 customer dimension
+│   ├── 07_booking_fact.ipynb               # Booking fact table
+│   ├── 08_zorder_optimize.ipynb            # Table optimization
+│   └── 09_analyze_stats.ipynb              # Statistics analysis
 ├── queries/
 │   ├── travel_booking_init.sql            # Schema initialization
 │   ├── customer360.sql                    # Customer analytics
@@ -63,7 +63,7 @@ Travel_Booking_SCD2_Merge_Project/
 
 ## Pipeline Components
 
-### 1. Input Validation (`validate_inputs.ipynb`)
+### 1. Input Validation (`01_input_validation.ipynb`)
 - **Purpose**: Validates input parameters and file existence
 - **Features**:
   - Parameter extraction with defaults
@@ -73,14 +73,14 @@ Travel_Booking_SCD2_Merge_Project/
 
 ### 2. Bronze Layer Ingestion
 
-#### Booking Data (`10_ingest_bookings_bronze.ipynb`)
+#### Booking Data (`02_ingest_bookings_bronze.ipynb`)
 - **Purpose**: Raw booking data ingestion
 - **Features**:
   - CSV parsing with schema inference
   - Metadata enrichment (ingestion_time, business_date)
   - Delta table storage with append mode
 
-#### Customer Data (`11_ingest_customers_bronze.ipynb`)
+#### Customer Data (`03_ingest_customers_bronze.ipynb`)
 - **Purpose**: Raw customer data ingestion with SCD2 preparation
 - **Features**:
   - SCD2 temporal columns (valid_from, valid_to, is_current)
@@ -89,7 +89,7 @@ Travel_Booking_SCD2_Merge_Project/
 
 ### 3. Data Quality Validation
 
-#### Booking DQ (`20_dq_bookings.ipynb`)
+#### Booking DQ (`04_bookings_dq.ipynb`)
 - **Purpose**: Comprehensive booking data quality checks
 - **Checks**:
   - Data existence (row count > 0)
@@ -97,7 +97,7 @@ Travel_Booking_SCD2_Merge_Project/
   - Non-negativity (amount, quantity, discount)
 - **Framework**: PyDeequ with error-level validation
 
-#### Customer DQ (`21_dq_customers.ipynb`)
+#### Customer DQ (`05_customers_dq.ipynb`)
 - **Purpose**: Customer data quality validation
 - **Checks**:
   - Data existence and completeness
@@ -106,7 +106,7 @@ Travel_Booking_SCD2_Merge_Project/
 
 ### 4. Silver Layer Processing
 
-#### SCD2 Customer Dimension (`30_customer_dim_scd2.ipynb`)
+#### SCD2 Customer Dimension (`06_customers_dim_scd2.ipynb`)
 - **Purpose**: Implements SCD2 for customer dimension
 - **Features**:
   - Surrogate key generation (IDENTITY column)
@@ -114,7 +114,7 @@ Travel_Booking_SCD2_Merge_Project/
   - Merge logic for attribute changes
   - Temporal column management
 
-#### Booking Fact Table (`31_booking_fact_build.ipynb`)
+#### Booking Fact Table (`07_booking_fact.ipynb`)
 - **Purpose**: Creates aggregated booking fact table
 - **Features**:
   - Daily grain aggregation
@@ -124,14 +124,14 @@ Travel_Booking_SCD2_Merge_Project/
 
 ### 5. Table Optimization
 
-#### Z-Order Optimization (`40_optimize_zorder.ipynb`)
+#### Z-Order Optimization (`08_zorder_optimize.ipynb`)
 - **Purpose**: Optimizes table performance
 - **Features**:
   - Z-ORDER BY clustering
   - VACUUM operations
   - Performance tuning
 
-#### Statistics Analysis (`41_analyze_stats.ipynb`)
+#### Statistics Analysis (`09_analyze_stats.ipynb`)
 - **Purpose**: Updates table statistics
 - **Features**:
   - ANALYZE TABLE commands
@@ -190,15 +190,15 @@ dbutils.widgets.text("base_volume", "/Volumes/travel_bookings/default/data")
 ### 3. Pipeline Execution
 ```python
 # Run notebooks in sequence:
-# 1. validate_inputs.ipynb
-# 2. 10_ingest_bookings_bronze.ipynb
-# 3. 11_ingest_customers_bronze.ipynb
-# 4. 20_dq_bookings.ipynb
-# 5. 21_dq_customers.ipynb
-# 6. 30_customer_dim_scd2.ipynb
-# 7. 31_booking_fact_build.ipynb
-# 8. 40_optimize_zorder.ipynb
-# 9. 41_analyze_stats.ipynb
+# 1. 01_input_validation.ipynb
+# 2. 02_ingest_bookings_bronze.ipynb
+# 3. 03_ingest_customers_bronze.ipynb
+# 4. 04_bookings_dq.ipynb
+# 5. 05_customers_dq.ipynb
+# 6. 06_customers_dim_scd2.ipynb
+# 7. 07_booking_fact.ipynb
+# 8. 08_zorder_optimize.ipynb
+# 9. 09_analyze_stats.ipynb
 ```
 
 ## Data Model
