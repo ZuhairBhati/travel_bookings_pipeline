@@ -1,8 +1,8 @@
-# Travel Booking SCD2 Merge Project
+# Travel Booking Data Pipeline
 
 ## Overview
 
-This project demonstrates a comprehensive **data engineering pipeline** for travel booking data processing, implementing **SCD2 (Slowly Changing Dimension Type 2)** patterns with **Delta Lake** and **PySpark**. The pipeline processes daily booking transactions and customer master data with data quality validation, dimension management, and fact table aggregation.
+This is a data engineering pipeline built on Databricks + Delta Lake + PySpark that ingests travel booking and customer master data, applies SCD Type 2 logic, and delivers analytics-ready tables. It includes data quality enforcement, dimension versioning, fact aggregation, and performance tuning.
 
 ## Architecture
 
@@ -44,7 +44,8 @@ Travel_Booking_SCD2_Merge_Project/
 │   └── log_completion_flow.sql            # Pipeline completion
 ├── booking_data/                          # Sample booking CSV files
 ├── customer_data/                         # Sample customer CSV files
-└── imgs/                                  # Databricks Workflow Orchestration Screenshots
+└── imgs/
+    └── orchestration_screenshots                                 
 └── README.md                             # This file
 
 ```
